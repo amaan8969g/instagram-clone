@@ -1,0 +1,5 @@
+com\example\profilebackend\controller\UserController.class
+com\example\profilebackend\ProfileBackendApplication.class
+com\example\profilebackend\model\User.class
+com\example\profilebackend\repository\UserRepository.class
+com\example\profilebackend\service\UserService.class
