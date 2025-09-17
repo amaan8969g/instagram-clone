@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Auth.css";
 
-export default function Signup({ onSwitch }) {
+export default function Signup({ onSwitch, onSignup }) {
   const [form, setForm] = useState({ name: "", username: "", email: "", password: "" });
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,22 +11,14 @@ export default function Signup({ onSwitch }) {
     e.preventDefault();
     console.log("Attempting signup with:", form);
     try {
-      const response = await axios.post("http://localhost:8081/api/users/signup", form);
+      const response = await axios.post("http://localhost:8080/api/users/signup", form);
       console.log("Signup response:", response.data);
-      setSuccess(true);
+      onSignup(response.data);
     } catch (err) {
       console.error("Signup error:", err.response || err);
       setError("Signup failed");
     }
   };
-
-  if (success) return (
-    <div className="auth-container">
-      <div className="auth-box">
-        Signup successful! <span className="signup-link" onClick={onSwitch}>Login</span>
-      </div>
-    </div>
-  );
 
   return (
     <div className="auth-container">

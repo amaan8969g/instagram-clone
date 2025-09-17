@@ -2,18 +2,46 @@ import React, { useState } from "react";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
-import "./components/Auth.css";
 
 function App() {
   const [page, setPage] = useState("login");
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  if (user) return <Profile user={user} />;
+  const handleLogin = (user) => {
+    setCurrentUser(user);
+    setPage("profile");
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setPage("login");
+  };
+
+  const handleSignup = (user) => {
+    setCurrentUser(user);
+    setPage("profile");
+  };
 
   return (
     <div>
-      {page === "login" && <Login onLogin={setUser} onSwitch={() => setPage("signup")} />}
-      {page === "signup" && <Signup onSwitch={() => setPage("login")} />}
+      {page === "login" && (
+        <Login 
+          onLogin={handleLogin} 
+          onSwitch={() => setPage("signup")} 
+        />
+      )}
+      {page === "signup" && (
+        <Signup 
+          onSignup={handleSignup}
+          onSwitch={() => setPage("login")} 
+        />
+      )}
+      {page === "profile" && currentUser && (
+        <Profile 
+          currentUser={currentUser}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   );
 }

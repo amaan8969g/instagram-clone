@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Auth.css";
 
 export default function Login({ onLogin, onSwitch }) {
   const [username, setUsername] = useState("");
@@ -12,12 +11,11 @@ export default function Login({ onLogin, onSwitch }) {
     console.log("Attempting login with:", { username, password });
     try {
       const res = await axios.post(
-        "http://localhost:8081/api/users/login",
+        "http://localhost:8080/api/users/login",
         { username, password }
       );
       console.log("Login response:", res.data);
       onLogin(res.data);
-      window.location.href = "/success.html";
     } catch (err) {
       console.error("Login error:", err.response || err);
       setError("Invalid credentials");

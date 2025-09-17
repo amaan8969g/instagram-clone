@@ -1,0 +1,324 @@
+{
+  "info": {
+    "name": "Instagram Clone API",
+    "description": "Complete API collection for Instagram Clone with MongoDB integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('user_id', response.id);",
+                  "    pm.collectionVariables.set('username', response.username);",
+                  "    console.log('User ID saved:', response.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile Management",
+      "item": [
+        {
+          "name": "Get Profile by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/profile/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "profile", "{{user_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile by Username",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/profile/username/{{username}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "profile", "username", "{{username}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated Doe\",\n  \"bio\": \"This is my updated bio! 📸\",\n  \"isPrivate\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/profile/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "profile", "{{user_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Follow System",
+      "item": [
+        {
+          "name": "Follow User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/follow/{{user_id}}/TARGET_USER_ID",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "follow", "{{user_id}}", "TARGET_USER_ID"]
+            },
+            "description": "Replace TARGET_USER_ID with the ID of the user you want to follow"
+          },
+          "response": []
+        },
+        {
+          "name": "Unfollow User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/unfollow/{{user_id}}/TARGET_USER_ID",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "unfollow", "{{user_id}}", "TARGET_USER_ID"]
+            },
+            "description": "Replace TARGET_USER_ID with the ID of the user you want to unfollow"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Followers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/followers/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "followers", "{{user_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Following",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/following/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "following", "{{user_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Search & Discovery",
+      "item": [
+        {
+          "name": "Search Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/search?query=john",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "john"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "all"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "File Upload",
+      "item": [
+        {
+          "name": "Upload Profile Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/upload-profile-image/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "upload-profile-image", "{{user_id}}"]
+            },
+            "description": "Upload a profile image file"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Avatar",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/upload-avatar/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "upload-avatar", "{{user_id}}"]
+            },
+            "description": "Upload an avatar image file"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "MongoDB Health Check",
+      "item": [
+        {
+          "name": "Test MongoDB Connection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users", "all"]
+            },
+            "description": "This endpoint tests if MongoDB is connected and accessible"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
